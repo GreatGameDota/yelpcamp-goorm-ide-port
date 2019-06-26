@@ -1,4 +1,4 @@
-var express     = require("express"),
+const express     = require("express"),
     app         = express(),
     bodyParser  = require("body-parser"),
     mongoose    = require("mongoose"),
@@ -13,19 +13,20 @@ var express     = require("express"),
     seedDB      = require("./seeds"),
     methodOverride = require("method-override");
 // configure dotenv
-require('dotenv').load();
+require('dotenv').config();
 
 //requiring routes
 var commentRoutes    = require("./routes/comments"),
     campgroundRoutes = require("./routes/campgrounds"),
-    indexRoutes      = require("./routes/index")
+    indexRoutes      = require("./routes/index");
     
 // assign mongoose promise library and connect to database
 mongoose.Promise = global.Promise;
 
-const databaseUri = process.env.MONGODB_URI || 'mongodb://localhost/yelp_camp';
+//const databaseUrl = process.env.MONGODB_URI || 'mongodb://localhost/yelp_camp';
+const databaseUrl = 'mongodb+srv://happyface:12345@cluster0-tinfc.mongodb.net/test?retryWrites=true&w=majority';
 
-mongoose.connect(databaseUri, { useMongoClient: true })
+mongoose.connect(databaseUrl, {useNewUrlParser: true})
       .then(() => console.log(`Database connected`))
       .catch(err => console.log(`Database connection error: ${err.message}`));
 
@@ -64,6 +65,6 @@ app.use("/", indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
-app.listen(process.env.PORT, process.env.IP, function(){
+app.listen(3000, function(){
    console.log("The YelpCamp Server Has Started!");
 });

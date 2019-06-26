@@ -9,7 +9,7 @@ var { isLoggedIn, checkUserCampground, checkUserComment, isAdmin, isSafe } = mid
 // Define escapeRegex function for search feature
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-};
+}
 
 //INDEX - show all campgrounds
 router.get("/", function(req, res){
@@ -48,16 +48,19 @@ router.post("/", isLoggedIn, isSafe, function(req, res){
   var author = {
       id: req.user._id,
       username: req.user.username
-  }
+  };
   var cost = req.body.cost;
   geocoder.geocode(req.body.location, function (err, data) {
     if (err || data.status === 'ZERO_RESULTS') {
       req.flash('error', 'Invalid address');
       return res.redirect('back');
     }
-    var lat = data.results[0].geometry.location.lat;
-    var lng = data.results[0].geometry.location.lng;
-    var location = data.results[0].formatted_address;
+    //var lat = data.results[0].geometry.location.lat;
+    //var lng = data.results[0].geometry.location.lng;
+	var lat = 0;
+    var lng = 0;
+    //var location = data.results[0].formatted_address;
+	var location = 'Somewhere';
     var newCampground = {name: name, image: image, description: desc, cost: cost, author:author, location: location, lat: lat, lng: lng};
     // Create a new campground and save to DB
     Campground.create(newCampground, function(err, newlyCreated){
@@ -86,7 +89,7 @@ router.get("/:id", function(req, res){
             req.flash('error', 'Sorry, that campground does not exist!');
             return res.redirect('/campgrounds');
         }
-        console.log(foundCampground)
+        console.log(foundCampground);
         //render show template with that campground
         res.render("campgrounds/show", {campground: foundCampground});
     });
@@ -137,7 +140,7 @@ router.delete("/:id", isLoggedIn, checkUserCampground, function(req, res) {
             res.redirect('/campgrounds');
           });
       }
-    })
+    });
 });
 
 module.exports = router;
