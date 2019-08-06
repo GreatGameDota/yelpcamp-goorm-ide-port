@@ -1,17 +1,18 @@
-const express = require('express'),
-	app = express(),
-	bodyParser = require('body-parser'),
-	mongoose = require('mongoose'),
-	passport = require('passport'),
-	cookieParser = require('cookie-parser'),
-	LocalStrategy = require('passport-local'),
-	flash = require('connect-flash'),
-	Campground = require('./models/campground'),
-	Comment = require('./models/comment'),
-	User = require('./models/user'),
-	session = require('express-session'),
-	seedDB = require('./seeds'),
-	methodOverride = require('method-override');
+const express     = require("express"),
+    app         = express(),
+    bodyParser  = require("body-parser"),
+    mongoose    = require("mongoose"),
+    passport    = require("passport"),
+    cookieParser = require("cookie-parser"),
+    LocalStrategy = require("passport-local"),
+    flash        = require("connect-flash"),
+    Campground  = require("./models/campground"),
+    Comment     = require("./models/comment"),
+    User        = require("./models/user"),
+    session = require("express-session"),
+    seedDB      = require("./seeds"),
+    methodOverride = require("method-override"),
+    dbConfig = require("./dbConfig");
 // configure dotenv
 require('dotenv').config();
 
@@ -24,7 +25,7 @@ var commentRoutes = require('./routes/comments'),
 mongoose.Promise = global.Promise;
 
 //const databaseUrl = process.env.MONGODB_URI || 'mongodb://localhost/yelp_camp';
-const databaseUrl = 'mongodb+srv://happyface:12345@cluster0-tinfc.mongodb.net/test?retryWrites=true&w=majority';
+const databaseUrl = dbConfig.key;
 
 mongoose
 	.connect(databaseUrl, { useNewUrlParser: true })
